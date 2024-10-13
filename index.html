@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+	<meta charset="utf-8" />
+	<title>Lectoris - the Code Explorer</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="canonical" href="/" />
+
+	<link rel="stylesheet" href="styles.css">
+	<script defer src="main.js"></script>
+</head>
+<body class="flex-col">
+	<header class="flex-row flex-top">
+		<div class="flex-left">
+			<div class="logo">Lectoris</div>
+		</div>
+		<div class="flex-middle"></div>
+		<div class="flex-right">
+			<button onclick="fullscreen()">fullscreen</button>
+		</div>
+	</header>
+
+	<main id="main" class="flex-middle">
+		<pan id="pan" class="draggable dragger">
+			<div id="log" style="position: absolute; width: 400px;"></div>
+		</pan>
+	</main>
+
+	<footer class="flex-row flex-bottom">
+		<div class="flex-left">
+		</div>
+		<div class="flex-middle"></div>
+		<div class="flex-right">
+			<span class="copyright">nikandfor, 2024</span>
+		</div>
+	</footer>
+	<template id="func-block-template">
+		<div class="block func-block draggable flex-col">
+			<div class="block-header flex-row dragger flex-top">
+				<div class="flex-left">
+					<div class="func-name"><slot name="name">Function Name</slot></div>
+				</div>
+				<div class="flex-middle"></div>
+				<div class="flex-right"></div>
+			</div><div class="block-body flex-middle">
+				<pre><slot name="text">func main() {
+	fmt.Println("Hello World!")
+}</slot></pre>
+			</div>
+		</div>
+	</template>
+</body>
+</html>
