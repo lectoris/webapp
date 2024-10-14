@@ -1,0 +1,45 @@
+
+header {
+	background: #ebcbae;
+}
+
+footer {
+	background: #ebcbae;
+}
+
+main {
+	//background: #adf7d1;
+}
+
+.block-header {
+	//background: #cab9fb;
+}
+
+.block {
+	//background: #adf7d1;
+
+	border: 2px solid #475053;
+	border-radius: 10px;
+	box-shadow: 1px 1px #5f6769;
+}
+
+.block.namespace .block-header {
+	background: #cab9fb;
+}
+
+.block.namespace {
+	background: #ddfafb;
+}
+
+.block.func .block-header {
+	background: #bda6ff;
+}
+
+.block.func {
+	background: #bdf3ff;
+}
+
+
+footer .copyright {
+	color: gray;
+}

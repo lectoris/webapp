@@ -1,0 +1,30 @@
+
+
+.block {
+	display: inline-block;
+	position: absolute;
+
+	resize: both;
+
+	min-width: 200px;
+	min-height: 100px;
+
+//	margin: 15px;
+}
+
+.block-header {
+	min-width: max-content;
+	min-height: 30px;
+
+	cursor: grab;
+}
+
+.block-body {
+	overflow: auto;
+
+	padding: 10px;
+}
+
+.dragged.block, .dragged .block {
+	opacity: 0.8;
+}

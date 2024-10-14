@@ -7,8 +7,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="canonical" href="/" />
 
-	<link rel="stylesheet" href="styles.css">
-	<script defer src="main.js"></script>
+	<link rel="stylesheet" href="css/styles.css">
+	<link rel="stylesheet" href="css/block.css">
+	<link rel="stylesheet" href="css/theme.css">
+
+	<script defer src="js/main.js"></script>
+	<script defer src="js/block.js"></script>
+	<script defer src="js/drag_mouse.js"></script>
+	<script defer src="js/scale_mouse.js"></script>
 </head>
 <body class="flex-col">
 	<header class="flex-row flex-top">
@@ -17,14 +23,16 @@
 		</div>
 		<div class="flex-middle"></div>
 		<div class="flex-right">
-			<button onclick="fullscreen()">fullscreen</button>
+			<button class="">login</button>
+			<button class="fullscreen" onclick="fullscreen()">fullscreen</button>
 		</div>
 	</header>
 
 	<main id="main" class="flex-middle">
-		<pan id="pan" class="draggable dragger">
-			<div id="log" style="position: absolute; width: 400px;"></div>
-		</pan>
+		<div id="pan" class="pan draggable dragger">
+		</div>
+
+		<div id="log" style="min-width: 200px; width: fit-content;"></div>
 	</main>
 
 	<footer class="flex-row flex-bottom">
@@ -35,20 +43,26 @@
 			<span class="copyright">nikandfor, 2024</span>
 		</div>
 	</footer>
-	<template id="func-block-template">
-		<div class="block func-block draggable flex-col">
+
+	<template id="block-template">
+		<div class="block draggable flex-col">
 			<div class="block-header flex-row dragger flex-top">
 				<div class="flex-left">
-					<div class="func-name"><slot name="name">Function Name</slot></div>
+					<div class="block-title"><slot name="title">Title</slot></div>
 				</div>
 				<div class="flex-middle"></div>
-				<div class="flex-right"></div>
+				<div class="flex-right">
+					<div class="nomargin">X</div>
+				</div>
 			</div><div class="block-body flex-middle">
-				<pre><slot name="text">func main() {
-	fmt.Println("Hello World!")
-}</slot></pre>
+				<slot name="body"></slot>
 			</div>
 		</div>
+	</template>
+	<template id="func-body-template">
+		<pre slot="body"><slot name="text">func main() {
+	fmt.Println("Hello World!")
+}</slot></pre>
 	</template>
 </body>
 </html>

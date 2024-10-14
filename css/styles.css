@@ -1,0 +1,96 @@
+
+* {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+html, body {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+pre {
+	width: max-content;
+	height: max-content;
+}
+
+header {
+	min-height: 40px;
+}
+
+footer {
+	min-height: 30px;
+}
+
+#main, #scale {
+	position: relative;
+}
+
+.scale, .pan {
+	overflow: visible;
+
+	width: 100%;
+	height: 100%;
+}
+
+.pan {
+	display: block;
+	position: absolute;
+}
+
+#main.shifted {
+	cursor: grab;
+}
+
+.flex-col {
+	display: flex;
+	flex-direction: column;
+}
+
+.flex-row {
+	display: flex;
+	flex-direction: row;
+}
+
+.flex-middle {
+	flex: 1;
+}
+
+.flex-left {
+	display: flex;
+	flex-direction: row;
+}
+
+.flex-right {
+	display: flex;
+	flex-direction: row-reverse;
+}
+
+:is(header, footer) :is(.flex-left, .flex-right) > * {
+	margin: auto 10px;
+	padding: 5px 10px;
+}
+
+.block-header :is(.flex-left, .flex-right) > * {
+	margin: auto 10px;
+	padding: 5px 10px;
+}
+
+.logo::after {
+	content: "\1304e";
+	margin: 10px;
+}
+
+.nomargin.nomargin {
+	margin: auto;
+}
+
+#log {
+	position: absolute;
+	right: 0;
+}
+
+#pan {
+}
