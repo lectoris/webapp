@@ -9,7 +9,7 @@
 		main.addEventListener('mousedown', mouseDown, true)
 		main.addEventListener('mouseup', mouseUp, true)
 
-		main.addEventListener('contextmenu', e => { e.preventDefault(); return false; })
+		main.addEventListener('contextmenu', e => target && e.preventDefault())
 	})
 
 	let target
@@ -34,6 +34,7 @@
 
 		main.addEventListener('mousemove', mouseMove)
 		main.addEventListener('mouseleave', mouseUp, {once: true})
+		main.classList.add('grabbing')
 
 		e.preventDefault()
 		return false
@@ -59,6 +60,8 @@
 		target = null
 
 		main.removeEventListener('mousemove', mouseMove)
+		main.classList.remove('grabbing')
+
 		e.preventDefault()
 		return false
 	}
@@ -87,7 +90,7 @@
 	}
 
 	function draggable(e) {
-		let relaxed = e.shiftKey || e.button == 2
+		let relaxed = e.button == 2
 
 		let dragger = e.target.closest('.dragger, .draggable')
 		if (!dragger) {

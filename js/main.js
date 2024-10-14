@@ -33,7 +33,7 @@ window.addEventListener('load', function() {
 	return x
 }`, {classList: ['func']})
 
-	pan.appendChild(pkg)
+	pan.blockAppend(pkg)
 
 	pkg.blockAppend(fun1)
 	pkg.blockAppend(fun2)

@@ -1,16 +1,12 @@
 
 window.addEventListener('DOMContentLoaded', function() {
 	let main = document.getElementById('main')
+	let pan = document.getElementById('pan')
+
+	toBlockContainer(pan)
 
 	main.addEventListener('mousedown', (e) => moveToForeground(e.target))
 	main.addEventListener('touchstart', (e) => moveToForeground(e.target))
-
-	document.addEventListener('keydown', (e) => {
-		e.shiftKey && main.classList.add('shifted')
-	})
-	document.addEventListener('keyup', (e) => {
-		e.key == "Shift" && main.classList.remove('shifted')
-	})
 })
 
 function createFunc(title, text = "", opts = {}) {
@@ -26,28 +22,11 @@ function createBlock(title, body = null, opts = {}) {
 	let template = document.getElementById('block-template').content
 	let block = document.importNode(template, true).children[0]
 
-	block.zorder = []
+	toBlockContainer(block)
 
-	block.blockAppend = function(body) {
-		if (!body) {
-			return
-		}
+	block.querySelector('.block-title').innerHTML = title
 
-		let [left, top] = [20, 60]
-		let prev = block.zorder.at(-1)
-		if (prev) {
-			let s = window.getComputedStyle(prev)
-			left += parseInt(s.left, 10) || 0
-			top += parseInt(s.top, 10) || 0
-		}
-
-		[body.style.left, body.style.top] = [left + 'px', top + 'px']
-
-		block.querySelector('slot[name="body"]').appendChild(body)
-		block.zorder.push(body)
-	}
-
-	block.querySelector('slot[name="title"]').innerHTML = title
+	block.querySelector('slot[name="body"]').remove()
 	block.blockAppend(body)
 
 	if (!opts) {
@@ -69,6 +48,37 @@ function createBlock(title, body = null, opts = {}) {
 	return block
 }
 
+function toBlockContainer(target) {
+	target.blockAppend = function(block) {
+		if (!block) {
+			return
+		}
+
+		if (!this.zorder) {
+			this.zorder = []
+		}
+
+		let [left, top] = [20, 60]
+		let prev = this.zorder.at(-1)
+		if (prev) {
+			let s = window.getComputedStyle(prev)
+			left += parseInt(s.left, 10) || 0
+			top += parseInt(s.top, 10) || 0
+		}
+
+		[block.style.left, block.style.top] = [left + 'px', top + 'px']
+
+		let container = this
+
+		if (!this.classList.contains('block-container')) {
+			container = this.querySelector('.block-container')
+		}
+
+		container.appendChild(block)
+		this.zorder.push(block)
+	}
+}
+
 function moveToForeground(target) {
 	let block = target.closest('.block')
 	if (!block) {
@@ -76,7 +86,6 @@ function moveToForeground(target) {
 	}
 
 	let parent = block.parentElement?.closest('.block')
-	//console.log("to fg", block, parent)
 	if (!parent || !parent.zorder) {
 		return
 	}

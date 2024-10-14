@@ -40,10 +40,6 @@ footer {
 	position: absolute;
 }
 
-#main.shifted {
-	cursor: grab;
-}
-
 .flex-col {
 	display: flex;
 	flex-direction: column;

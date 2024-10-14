@@ -1,7 +1,6 @@
 
 
 .block {
-	display: inline-block;
 	position: absolute;
 
 	resize: both;
@@ -27,4 +26,8 @@
 
 .dragged.block, .dragged .block {
 	opacity: 0.8;
+}
+
+.grabbing, .grabbing .block-header {
+	cursor: grabbing;
 }
