@@ -8,12 +8,41 @@
 
 		main.addEventListener('mousedown', mouseDown, true)
 		main.addEventListener('mouseup', mouseUp, true)
+
+		main.addEventListener('contextmenu', (e) => (y) && e.preventDefault())
+
+		main.addEventListener('wheel', wheel, true)
 	})
 
 	let scale = 1.
 	let factor = 400
 	let offset, rel
 	let y
+
+	function wheel(e) {
+		if (y) {
+			e.preventDefault()
+			return false
+		}
+
+		let poff = getOffset(pan)
+		rel = {x: e.pageX - poff.left, y: e.pageY - poff.top}
+		offset = getOffset(pan, main)
+
+		let sc = scale - e.deltaY / (factor) / 2
+		let s = pan.style
+
+		s['transform-origin'] = '0 0'
+		s['transform'] = `scale(${sc})`
+
+		s.left = offset.left + rel.x - Math.round(rel.x * sc / scale) + 'px'
+		s.top = offset.top + rel.y - Math.round(rel.y * sc / scale) + 'px'
+
+		scale = sc
+
+		e.preventDefault()
+		return false
+	}
 
 	function mouseDown(e) {
 		if (e.button != 2 || !e.metaKey && !e.ctrlKey) {
@@ -49,6 +78,7 @@
 		}
 
 		scale = doScale(e)
+
 		pan.setAttribute('data-scale', scale)
 		y = null
 
