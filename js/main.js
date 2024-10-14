@@ -33,9 +33,9 @@ window.addEventListener('load', function() {
 	return x
 }`, {classList: ['func']})
 
-	pan.blockAppend(pkg)
+	pan.appendBlock(pkg)
 
-	pkg.blockAppend(fun1)
-	pkg.blockAppend(fun2)
-	pkg.blockAppend(fun3)
+	pkg.appendBlock(fun1)
+	pkg.appendBlock(fun2)
+	pkg.appendBlock(fun3)
 })

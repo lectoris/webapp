@@ -18,7 +18,7 @@
 	let scale
 
 	function mouseDown(e) {
-		if (e.metaKey || e.ctrlKey) {
+		if (e.ctrlKey) {
 			return
 		}
 

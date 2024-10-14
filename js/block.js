@@ -3,7 +3,7 @@ window.addEventListener('DOMContentLoaded', function() {
 	let main = document.getElementById('main')
 	let pan = document.getElementById('pan')
 
-	toBlockContainer(pan)
+	pan.appendBlock = appendBlock
 
 	main.addEventListener('mousedown', (e) => moveToForeground(e.target))
 	main.addEventListener('touchstart', (e) => moveToForeground(e.target))
@@ -13,21 +13,22 @@ function createFunc(title, text = "", opts = {}) {
 	let template = document.getElementById('func-body-template').content
 	let body = document.importNode(template, true).children[0]
 
-	body.querySelector('slot[name="text"]').contentText = text
+	body.querySelector('slot[name=text]').innerText = text
 
 	return createBlock(title, body, opts)
 }
 
-function createBlock(title, body = null, opts = {}) {
+function createBlock(title, body, opts = {}) {
 	let template = document.getElementById('block-template').content
 	let block = document.importNode(template, true).children[0]
 
-	toBlockContainer(block)
+	block.appendBlock = appendBlock
 
 	block.querySelector('.block-title').innerHTML = title
 
 	block.querySelector('slot[name="body"]').remove()
-	block.blockAppend(body)
+	block.appendBlock(body)
+
 
 	if (!opts) {
 		return block
@@ -48,35 +49,30 @@ function createBlock(title, body = null, opts = {}) {
 	return block
 }
 
-function toBlockContainer(target) {
-	target.blockAppend = function(block) {
-		if (!block) {
-			return
-		}
-
-		if (!this.zorder) {
-			this.zorder = []
-		}
-
-		let [left, top] = [20, 60]
-		let prev = this.zorder.at(-1)
-		if (prev) {
-			let s = window.getComputedStyle(prev)
-			left += parseInt(s.left, 10) || 0
-			top += parseInt(s.top, 10) || 0
-		}
-
-		[block.style.left, block.style.top] = [left + 'px', top + 'px']
-
-		let container = this
-
-		if (!this.classList.contains('block-container')) {
-			container = this.querySelector('.block-container')
-		}
-
-		container.appendChild(block)
-		this.zorder.push(block)
+function appendBlock(block) {
+	if (!block) {
+		return
 	}
+
+	this.zorder = this.zorder || []
+
+	let [left, top] = [20, 60]
+	let prev = this.zorder.at(-1)
+	if (prev) {
+		left += prev.offsetLeft
+		top += prev.offsetTop
+	}
+
+	[block.style.left, block.style.top] = [left + 'px', top + 'px']
+
+	let container = this
+
+	if (!container.classList.contains('block-container')) {
+		container = container.querySelector('.block-container')
+	}
+
+	container.appendChild(block)
+	this.zorder.push(block)
 }
 
 function moveToForeground(target) {

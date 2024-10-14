@@ -21,6 +21,9 @@
 	let y
 
 	function wheel(e) {
+		if (!(e.ctrlKey || e.target == pan || e.target == main)) {
+			return
+		}
 		if (y) {
 			e.preventDefault()
 			return false
@@ -52,7 +55,7 @@
 	}
 
 	function mouseDown(e) {
-		if (e.button != 2 || !e.metaKey && !e.ctrlKey) {
+		if (e.button != 2 || !e.ctrlKey) {
 			return
 		}
 
