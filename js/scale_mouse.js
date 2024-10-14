@@ -1,5 +1,6 @@
 
 (function() {
+	const minScale = 0.1, maxScale = 2
 	let main, pan
 
 	window.addEventListener('DOMContentLoaded', function() {
@@ -15,7 +16,7 @@
 	})
 
 	let scale = 1.
-	let factor = 400
+	let factor = 600
 	let offset, rel
 	let y
 
@@ -25,11 +26,17 @@
 			return false
 		}
 
+		let sc = scale - e.deltaY / factor
+		sc = bound(sc, minScale, maxScale)
+		if (sc == scale) {
+			e.preventDefault()
+			return false
+		}
+
 		let poff = getOffset(pan)
 		rel = {x: e.pageX - poff.left, y: e.pageY - poff.top}
 		offset = getOffset(pan, main)
 
-		let sc = scale - e.deltaY / (factor) / 2
 		let s = pan.style
 
 		s['transform-origin'] = '0 0'
@@ -91,6 +98,10 @@
 	function doScale(e) {
 		let dy = e.screenY - y
 		let sc = scale + dy / factor
+		sc = bound(sc, minScale, maxScale)
+		if (sc == scale) {
+			return sc
+		}
 
 		let s = pan.style
 
@@ -114,5 +125,11 @@
 		}
 
 		return {left: l, top: t}
+	}
+
+	function bound(x, l, h) {
+		if (x < l) return l
+		if (x > h) return h
+		return x
 	}
 })()
